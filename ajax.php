@@ -146,9 +146,7 @@ if($do=="logout"){
     setcookie("admin",null);
 }
 
-/*
- * used for testing
- * */
+
 
 
 ?>
