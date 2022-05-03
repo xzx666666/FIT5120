@@ -1,1 +1,0 @@
-kkobe697_image
