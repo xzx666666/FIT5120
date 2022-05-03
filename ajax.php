@@ -27,6 +27,15 @@ if($do=="addMember"){
     mysqli_query($con,$sql);
     echo "success";
 }
+if($do=="addHabitat"){
+    $description=$_POST['description'];
+    $title=$_POST['title'];
+    $longitude=$_POST['longitude'];
+    $latitude=$_POST['latitude'];
+    $sql="INSERT INTO ko_habitat(longitude,latitude,description,`title`)VALUES('$longitude','$latitude','$description','$title')";
+    mysqli_query($con,$sql);
+    echo "success";
+}
 if($do=="editMember"){
     $id=$_POST['id'];
     $description=$_POST['description'];
@@ -39,6 +48,17 @@ if($do=="editMember"){
         $sql="UPDATE ko_team set description='$description',duties='$duties',`name`='$name' where id='$id' ";
     }
     
+    mysqli_query($con,$sql);
+    echo "success";
+}
+if($do=="editHabitat"){
+    $id=$_POST['id'];
+    $description=$_POST['description'];
+    $title=$_POST['title'];
+    $longitude=$_POST['longitude'];
+    $latitude=$_POST['latitude'];
+    $sql="UPDATE ko_habitat set title='$title',description='$description',longitude='$longitude',`latitude`='$latitude' where id='$id' ";
+
     mysqli_query($con,$sql);
     echo "success";
 }
