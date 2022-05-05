@@ -68,7 +68,6 @@
 		<a class="skip-link screen-reader-text" href="#content" role="link" title="Skip to content">
 			Skip to content
 		</a>
-
 		<div class="hfeed site" id="page">
 			<header class="site-header header-main-layout-1 ast-primary-menu-enabled ast-logo-title-inline ast-hide-custom-menu-mobile ast-builder-menu-toggle-icon ast-mobile-header-inline"
 			id="masthead" itemtype="https://schema.org/WPHeader" itemscope="itemscope"
@@ -117,11 +116,11 @@
 																		Home
 																	</a>
 																</li>
-														<!-- 		<li id="menu-item-227" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-227">
+																<li id="menu-item-227" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-227">
 																	<a href="about.html" class="menu-link">
 																		About Us
 																	</a>
-																</li> -->
+																</li>
 																<li id="menu-item-45" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-45">
 																	<a href="koalas.html" class="menu-link">
 																		Cute Koalas
@@ -337,7 +336,7 @@
 															<div class="elementor-widget-container">
 																<div style="overflow: hidden; width: 100%;height: 300px;background: #eff7f2;">
 																	<p style="font-size:2.5rem;text-align: center;margin-top: 70px;">
-																		Post the koala image you like
+																		Post the koala imge you like
 																	</p>
 																	<p style="text-align: center;">
 																		<button onclick="showUploadDiv();">
@@ -373,7 +372,7 @@
 																		<select id="selectHabitat">
 																			<option value="">--Select Habitat--</option>
 																		</select>
-																		<input type="hidden" id="selectValue" >
+																		
 																	</label>
 																	<input type="button" class="search-submit" value="Search" onclick="searchImage();">
 																	<span style="float:right; line-height: 50px;font-weight: bold; ">
@@ -798,15 +797,15 @@ var _SEARCHWP_LIVE_AJAX_SEARCH_CONFIG = 'default';
 			
 			<section class="elementor-section elementor-top-section elementor-element elementor-element-f83a3c3 elementor-section-boxed elementor-section-height-default elementor-section-height-default">
 				<div id="uploadDiv" class="elementor-container elementor-column-gap-default"
-				style="display: none; background: #fff;border: 2px solid #333;margin: auto;position: fixed;z-index: 999;top:0;left:0;right: 0;top:12vh;flex-wrap: wrap;">
+				style="display: none; height: 750px;background: #fff;border: 2px solid #333;margin: auto;position: fixed;z-index: 999;top:0;left:0;right: 0;top:200px;flex-wrap: wrap;">
 					<p style="width: 100%; font-size: 30px;text-align: right;padding-right: 10px;margin: 0;">
 						<i class="fa fa-times" aria-hidden="true" style="cursor: pointer;" onclick="hideUploadDiv(); ">
 						</i>
 					</p>
 					<div style="width:100%;  display: flex;justify-content: space-between;flex-wrap: wrap;">
-						<div style="width: 50%;padding: 0px 80px;">
+						<div style="width: 50%;padding: 50px 80px;">
 							<form id="uploadForm">
-								<p style="font-size: 36px;font-weight: bold;margin-bottom: 0.5rem;">
+								<p style="font-size: 36px;font-weight: bold;">
 									Upload
 								</p>
 								<p>
@@ -853,9 +852,9 @@ var _SEARCHWP_LIVE_AJAX_SEARCH_CONFIG = 'default';
 								</table>
 							</form>
 						</div>
-						<div style="width: 45%;text-align: center;padding: 20px;">
+						<div style="width: 50%;text-align: center;padding: 50px;">
 							<img src="../static/picture/koala-koala-bear-hug-4450420-pmvhfv4e9q2lly4vjczbclg8ee97pchm5e1691kfdk.jpg"
-							width="50%" style="border-radius: 20px;">
+							width="60%" style="border-radius: 20px;">
 						</div>
 					</div>
 					<div style="clear: both;width: 100%;padding-right: 50px;">
@@ -882,13 +881,9 @@ var _SEARCHWP_LIVE_AJAX_SEARCH_CONFIG = 'default';
 </script>
 
 <script type="text/javascript">
-	var habitat = getUrlParam('habitat');
-	$("#selectValue").val(habitat);
-	console.log(habitat);
 	var isby = "off";
 $.post("ajax.php?do=getImagesList", {
-    isby: isby,
-    keyword:habitat
+    isby: isby
 }, function(res) {
     console.log(res);
     var html = "";
@@ -1000,7 +995,6 @@ function changeLike(obj,id){
 
 function changeStatus() {
     var isby = "off";
-    var keyword=$("#selectValue").val();
     if ($("#switch").attr("src") == "static/images/icon-open.png") {
         $("#switch").attr("src", "static/images/icon-close.png");
         $("#switch_text").html("Popular Off");
@@ -1012,7 +1006,7 @@ function changeStatus() {
         isby = "on";
     }
     $.post("ajax.php?do=getImagesList", {
-        isby: isby,searchValue:keyword
+        isby: isby
     }, function(res) {
         console.log(res);
         var html = "";
@@ -1050,9 +1044,8 @@ data-id="3202fa0" data-element_type="column">
 
 function searchImage(){
 	var keyword=$("#selectHabitat").val();
-	$("#selectValue").val(keyword);
 	console.log(keyword);
-	$.post("ajax.php?do=getImagesList",{searchValue:keyword},function(res){
+	$.post("ajax.php?do=getImagesList",{keyword:keyword},function(res){
         console.log(res);
         var html = "";
         var data = $.parseJSON(res);
@@ -1086,11 +1079,4 @@ data-id="3202fa0" data-element_type="column">
 
     });
 }
-
-
-function getUrlParam(name) {
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-            if (r != null) return unescape(r[2]); return null; //返回参数值
-        }
 </script>

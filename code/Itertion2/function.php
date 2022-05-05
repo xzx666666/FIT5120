@@ -14,7 +14,7 @@ function upload(){
     {
         if ($_FILES["file"]["error"] > 0)
         {
-            echo "error：: " . $_FILES["file"]["error"] . "<br>";
+            echo "错误：: " . $_FILES["file"]["error"] . "<br>";
             return fasle;
         }else{
                 $filename=date("YmdHis").rand(1000,9999).".".end($temp);
@@ -24,7 +24,7 @@ function upload(){
     }
     else
     {
-        echo "illegal file";
+        echo "非法的文件格式";
         return false;
     }
 }
