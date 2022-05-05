@@ -64,14 +64,20 @@ if($do=="editHabitat"){
 }
 if($do=="getImagesList"){
     $isby=$_POST['isby'];
+    $where = " where status=1";
+    if($_POST['searchValue']!=""){
+        $searchValue=$_POST['searchValue'];
+        $where .=" and habitat like '%$searchValue%'";
+    }
     if($isby=="on"){
-        $sql="select * from ko_base order by `like` desc";
+        $sql="select * from ko_base $where order by `like` desc";
     }else{
-        $sql="select * from ko_base order by `like` asc";
+        $sql="select * from ko_base $where order by `like` asc";
     }
     $keyword=$_POST['keyword'];
     if($keyword){
-        $sql="select * from ko_base where habitat like '%$keyword%'";
+        $where.=" and habitat like '%$keyword%'";
+        $sql="select * from ko_base $where";
     }
     $result=mysqli_query($con,$sql);
     $rows=mysqli_fetch_all($result,MYSQLI_ASSOC);
@@ -82,6 +88,7 @@ if($do=="getImagesList"){
             $rows[$k]['likeStatus']="off";
         }
     }
+    // echo $sql;die;
     echo json_encode($rows);
 }
 if($do=="getMemberList"){
@@ -157,6 +164,18 @@ if($do=="checkLogin"){
     if($username=="admin" and $password=="admin888"){
         echo "success";
         setcookie("admin","admin");
+    }else{
+        echo "error";
+    }
+}
+
+if($do=="checkLoginUser"){
+    setcookie("user","user");
+}
+
+if($do=="checkLoginUserStatus"){
+    if($_COOKIE['user']=="user"){
+        echo "success";
     }else{
         echo "error";
     }

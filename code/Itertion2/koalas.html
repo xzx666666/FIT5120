@@ -68,6 +68,7 @@
 		<a class="skip-link screen-reader-text" href="#content" role="link" title="Skip to content">
 			Skip to content
 		</a>
+
 		<div class="hfeed site" id="page">
 			<header class="site-header header-main-layout-1 ast-primary-menu-enabled ast-logo-title-inline ast-hide-custom-menu-mobile ast-builder-menu-toggle-icon ast-mobile-header-inline"
 			id="masthead" itemtype="https://schema.org/WPHeader" itemscope="itemscope"
@@ -372,7 +373,7 @@
 																		<select id="selectHabitat">
 																			<option value="">--Select Habitat--</option>
 																		</select>
-																		
+																		<input type="hidden" id="selectValue" >
 																	</label>
 																	<input type="button" class="search-submit" value="Search" onclick="searchImage();">
 																	<span style="float:right; line-height: 50px;font-weight: bold; ">
@@ -881,9 +882,13 @@ var _SEARCHWP_LIVE_AJAX_SEARCH_CONFIG = 'default';
 </script>
 
 <script type="text/javascript">
+	var habitat = getUrlParam('habitat');
+	$("#selectValue").val(habitat);
+	console.log(habitat);
 	var isby = "off";
 $.post("ajax.php?do=getImagesList", {
-    isby: isby
+    isby: isby,
+    keyword:habitat
 }, function(res) {
     console.log(res);
     var html = "";
@@ -995,6 +1000,7 @@ function changeLike(obj,id){
 
 function changeStatus() {
     var isby = "off";
+    var keyword=$("#selectValue").val();
     if ($("#switch").attr("src") == "static/images/icon-open.png") {
         $("#switch").attr("src", "static/images/icon-close.png");
         $("#switch_text").html("Popular Off");
@@ -1006,7 +1012,7 @@ function changeStatus() {
         isby = "on";
     }
     $.post("ajax.php?do=getImagesList", {
-        isby: isby
+        isby: isby,searchValue:keyword
     }, function(res) {
         console.log(res);
         var html = "";
@@ -1044,8 +1050,9 @@ data-id="3202fa0" data-element_type="column">
 
 function searchImage(){
 	var keyword=$("#selectHabitat").val();
+	$("#selectValue").val(keyword);
 	console.log(keyword);
-	$.post("ajax.php?do=getImagesList",{keyword:keyword},function(res){
+	$.post("ajax.php?do=getImagesList",{searchValue:keyword},function(res){
         console.log(res);
         var html = "";
         var data = $.parseJSON(res);
@@ -1079,4 +1086,11 @@ data-id="3202fa0" data-element_type="column">
 
     });
 }
+
+
+function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]); return null; //返回参数值
+        }
 </script>
