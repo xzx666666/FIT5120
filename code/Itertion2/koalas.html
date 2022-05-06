@@ -820,10 +820,12 @@ var _SEARCHWP_LIVE_AJAX_SEARCH_CONFIG = 'default';
 						</i>
 					</p>
 					<div style="width:100%;  display: flex;justify-content: space-between;flex-wrap: wrap;">
+						<div id="formTips" style="width: 500px; font-size: 14px;line-height: 20px;position: absolute;left:0;right: 0;top:20px;margin: auto;text-align: center;display: none;color: #f17070;">You have to fill it all out and upload it</div>
 						<div style="width: 50%;padding: 0px 80px;">
+
 							<form id="uploadForm">
 								<p style="font-size: 36px;font-weight: bold;margin-bottom: 0.5rem;">
-									Upload
+									Upload  
 								</p>
 								<p>
 									You could only select the Koala image
@@ -971,14 +973,19 @@ data-id="3202fa0" data-element_type="column">
 });
 $.post("ajax.php?do=getHabitatList", function(res) {
     console.log(res);
-    var html = "";
-    var html2 =""; 
+    var habitat = getUrlParam('habitat');
+    console.log(habitat);
+    var html = "<option value=''>All</option>";
+    var html2 ="<option value=''>All</option>"; 
+    var selected="aaaa";
     var data = $.parseJSON(res);
     for (var i = 0; i < data.length; i++) {
-        html += `<option value="` + data[i]['id'] + `">` + data[i]['title'] + `</option>`;
+    	if(habitat==data[i]['title']){selected="selected";}else{selected="";}
+        html += `<option value="` + data[i]['id'] + `" `+ selected +`>` + data[i]['title'] + `</option>`;
     }
     for (var i = 0; i < data.length; i++) {
-        html2 += `<option value="` + data[i]['title'] + `">` + data[i]['title'] + `</option>`;
+    	if(habitat==data[i]['title']){selected="selected";}else{selected="";}
+        html2 += `<option value="` + data[i]['title'] + `" `+ selected +` >` + data[i]['title'] + `</option>`;
     }
     $("#habitat").html(html);
     $("#selectHabitat").html(html2);
@@ -993,6 +1000,10 @@ function hideUploadDiv() {
 }
 
 function postForm() {
+	if($("#description").val()==""||$("#date").val()==""||$("#image").val()==""){
+		$("#formTips").show();
+		return false;
+	}
 
     var formData = new FormData();
     formData.append("description", $("#description").val());
