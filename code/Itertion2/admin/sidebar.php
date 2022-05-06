@@ -59,7 +59,7 @@
 								</ul>
 							</div>
 						</li>
-						<li class="nav-item">
+						<!-- <li class="nav-item">
 							<a data-toggle="collapse" href="#forms">
 								<i class="fas fa-pen-square"></i>
 								<p>About Us</p>
@@ -75,7 +75,7 @@
 									
 								</ul>
 							</div>
-						</li>
+						</li> -->
 						<li class="nav-item">
 							<a data-toggle="collapse" href="#maps">
 								<i class="fas fa-map-marker-alt"></i>
@@ -85,7 +85,7 @@
 							<div class="collapse" id="maps">
 								<ul class="nav nav-collapse">
 									<li>
-										<a href="#">
+										<a href="habitat_list.php">
 											<span class="sub-item">Habitat List</span>
 										</a>
 									</li>

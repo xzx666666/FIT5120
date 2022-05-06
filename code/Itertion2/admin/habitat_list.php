@@ -1,7 +1,7 @@
 <?php
 include_once ("../database.php");
 $id=$_GET['id'];
-$sql="select * from ko_team";
+$sql="select * from ko_habitat";
 $result=mysqli_query($con,$sql);
 $row=mysqli_fetch_all($result,MYSQLI_ASSOC);
 ?>
@@ -43,7 +43,7 @@ $row=mysqli_fetch_all($result,MYSQLI_ASSOC);
 			<div class="content">
 				<div class="page-inner">
 					<div class="page-header">
-						<h4 class="page-title">About Us</h4>
+						<h4 class="page-title">Koalas Habitat</h4>
 						<ul class="breadcrumbs">
 							<li class="nav-home">
 								<a href="#">
@@ -54,13 +54,13 @@ $row=mysqli_fetch_all($result,MYSQLI_ASSOC);
 								<i class="flaticon-right-arrow"></i>
 							</li>
 							<li class="nav-item">
-								<a href="#">About Us</a>
+								<a href="#">Habitat</a>
 							</li>
 							<li class="separator">
 								<i class="flaticon-right-arrow"></i>
 							</li>
 							<li class="nav-item">
-								<a href="#">Team Member</a>
+								<a href="#">Habitat List</a>
 							</li>
 						</ul>
 					</div>
@@ -69,10 +69,10 @@ $row=mysqli_fetch_all($result,MYSQLI_ASSOC);
 							<div class="card">
 								<div class="card-header">
 									<div class="d-flex align-items-center">
-										<h4 class="card-title">Memeber List</h4>
-										<button class="btn btn-xs btn-primary btn-round ml-auto" data-toggle="modal" data-target="#addRowModal" onclick="location.href='member_add.php'">
+										<h4 class="card-title">Habitat List</h4>
+										<button class="btn btn-xs btn-primary btn-round ml-auto" data-toggle="modal" data-target="#addRowModal" onclick="location.href='habitat_add.php'">
 											<i class="fa fa-plus"></i>
-											Add Member
+											Add Habitat
 										</button>
 									</div>
 								</div>
@@ -81,38 +81,40 @@ $row=mysqli_fetch_all($result,MYSQLI_ASSOC);
 										<table id="basic-datatables" class="display table table-striped table-hover" >
 											<thead>
 												<tr>
-													<th>Photo</th>
+													<th>ID</th>
 													<th>Name</th>
-													<th>Description</th>
-													<th>Duties</th>
-							
+													<th>Longitude</th>
+													<th>Latitude</th>
+					
+													<th>Action</th>
 												</tr>
 											</thead>
 											<tfoot>
 												<tr>
-													<th>Photo</th>
+													<th>ID</th>
 													<th>Name</th>
-													<th>Description</th>
-													<th>Duties</th>
-							
+													<th>Longitude</th>
+													<th>Latitude</th>
+					
+													<th>Action</th>
 												</tr>
 											</tfoot>
 											<tbody>
 												<?php foreach($row as $k =>$v){?>
 													<tr>
-														<td><img src="../<?=$v['image']?>" width="100" height="100"></td>
-														<td><?=$v['name']?></td>
-														<td><?=$v['description']?></td>
-														<td><?=$v['duties']?></td>
-										
+														<td><?=$v['id']?></td>
+														<td><?=$v['title']?></td>
+														<td><?=$v['longitude']?></td>
+														<td><?=$v['latitude']?></td>
+		
 														<td>
 <div class="form-button-action">
 
 														
 												<button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit">
-													<a href="image_edit.php?id=<?=$v['id']?>"><i class="fa fa-edit"></i></a>
+													<a href="habitat_edit.php?id=<?=$v['id']?>"><i class="fa fa-edit"></i></a>
 												</button>
-												<button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove" onclick="delData(<?=$v['id']?>,'ko_team')">
+												<button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove" onclick="delData(<?=$v['id']?>,'ko_habitat')">
 													<i class="fa fa-times"></i>
 												</button>
 											</div>
@@ -133,10 +135,9 @@ $row=mysqli_fetch_all($result,MYSQLI_ASSOC);
 			
 		</div>
 		
-
 	</div>
 	<!--   Core JS Files   -->
-	<!-- <script src="assets/js/core/jquery.3.2.1.min.js"></script> -->
+	<script src="assets/js/core/jquery.3.2.1.min.js"></script>
 	<script src="assets/js/core/popper.min.js"></script>
 	<script src="assets/js/core/bootstrap.min.js"></script>
 	<!-- jQuery UI -->

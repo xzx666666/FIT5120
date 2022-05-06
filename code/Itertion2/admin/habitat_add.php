@@ -1,15 +1,4 @@
-<?php
-include_once ("../database.php");
-$id=$_GET['id'];
-$sql="select * from ko_base where id=$id";
-$result=mysqli_query($con,$sql);
-$row=mysqli_fetch_array($result,MYSQLI_ASSOC);
-$sql2="select * from ko_habitat";
-$result2=mysqli_query($con,$sql2);
-$habitat=mysqli_fetch_all($result2,MYSQLI_ASSOC);
 
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,7 +37,7 @@ $habitat=mysqli_fetch_all($result2,MYSQLI_ASSOC);
 			<div class="content">
 				<div class="page-inner">
 					<div class="page-header">
-						<h4 class="page-title">Images</h4>
+						<h4 class="page-title">Habitat</h4>
 						<ul class="breadcrumbs">
 							<li class="nav-home">
 								<a href="#">
@@ -59,13 +48,13 @@ $habitat=mysqli_fetch_all($result2,MYSQLI_ASSOC);
 								<i class="flaticon-right-arrow"></i>
 							</li>
 							<li class="nav-item">
-								<a href="image_list.php">Koalas Images</a>
+								<a href="Habitat_list.php">Habitat</a>
 							</li>
 							<li class="separator">
 								<i class="flaticon-right-arrow"></i>
 							</li>
 							<li class="nav-item">
-								<a href="#">Edit Image</a>
+								<a href="#">Add Habitat</a>
 							</li>
 						</ul>
 					</div>
@@ -73,49 +62,31 @@ $habitat=mysqli_fetch_all($result2,MYSQLI_ASSOC);
 						<div class="col-md-12">
 							<div class="card">
 								<div class="card-header">
-									<div class="card-title">Edit</div>
+									<div class="card-title">Add Habitat</div>
 								</div>
 								<div class="card-body">
-									<div class="form-group">
-										<label for="email2">Image</label>
-										<div><img src="../<?=$row['image']?>" width="100"></div>
+									<div class="form-group" style="display: none;">
+										<label for="exampleFormControlFile1">id</label>
+										<input type="text" class="form-control" id="id" value="<?=$row['id']?>">
 									</div>
 									<div class="form-group">
-										<label for="image_id">ID</label>
-										<input type="email" class="form-control" id="image_id" placeholder="Enter Email" value="<?=$row['id']?>"  readonly >
+										<label for="exampleFormControlFile1">Name</label>
+										<input type="text" class="form-control" id="title" value="<?=$row['title']?>">
+									</div>
+									<div class="form-group">
+										<label for="image_id">longitude</label>
+										<input type="text" class="form-control" id="longitude" placeholder="Enter longitude" value="<?=$row['longitude']?>" >
+									</div>
+									<div class="form-group">
+										<label for="image_id">latitude</label>
+										<input type="text" class="form-control" id="latitude" placeholder="Enter latitude" value="<?=$row['latitude']?>" >
 									</div>
 									<div class="form-group">
 										<label for="description">Description</label>
-										<textarea name="description" id="description" class="form-control"><?=$row['description']?></textarea>
+										<textarea name="description" id="description" class="form-control" ><?=$row['description']?></textarea>
 									</div>
-					
-									<div class="form-group">
-										<label for="exampleFormControlSelect1">Habitat</label>
-										<select class="form-control" name="habitat" id="habitat">
-											<?php foreach($habitat as $k=>$v){ ?>
-												<option value="<?=$v['id']?>" <?php if($v['id']==$row['habitat_id']){echo "selected";} ?> ><?=$v['title']?></option>
-											<?php }?>
-										</select>
-									</div>
-									<div class="form-group">
-										<label for="like">Like</label>
-										<input type="text" class="form-control" id="like" placeholder="like" value="<?=$row['like']?>"   >
-									</div>
-									<div class="form-check">
-										<label>Status</label><br/>
-										<label class="form-radio-label">
-											<input class="form-radio-input" type="radio" name="status" value="0"  <?php echo  $row['status']==0?"checked":""; ?> >
-											<span class="form-radio-sign">Pending</span>
-										</label>
-										<label class="form-radio-label ml-3">
-											<input class="form-radio-input" type="radio" name="status" value="1" <?php echo  $row['status']==1?"checked":""; ?> >
-											<span class="form-radio-sign">Adopt</span>
-										</label>
-										<label class="form-radio-label ml-3">
-											<input class="form-radio-input" type="radio" name="status" value="2"<?php echo  $row['status']==2?"checked":""; ?> >
-											<span class="form-radio-sign">Refuse</span>
-										</label>
-									</div>
+
+
 
 									
 								</div>
@@ -131,8 +102,7 @@ $habitat=mysqli_fetch_all($result2,MYSQLI_ASSOC);
 			</div>
 			
 		</div>
-		
-		
+
 	</div>
 	<!--   Core JS Files   -->
 	<script src="assets/js/core/jquery.3.2.1.min.js"></script>
@@ -155,15 +125,35 @@ $habitat=mysqli_fetch_all($result2,MYSQLI_ASSOC);
 <script type="text/javascript">
 	
 	function postForm(){
-		var id=$("#image_id").val();
-		var description=$("#description").val();
-		var habitat=$("#habitat").val();
-		var like=$("#like").val();
-		var status=$("input[name='status']:checked").val();
-		$.post("../ajax.php?do=updateImage",{id:id,description:description,habitat:habitat,like:like,status:status},function(res){
-			layer.msg("Success");
+
+		var formData = new FormData();
+		formData.append("description",$("#description").val());
+		formData.append("title",$("#title").val());
+		formData.append("longitude",$("#longitude").val());
+		formData.append("latitude",$("#latitude").val());
+		formData.append("id",$("#id").val());
+
+
+		$.ajax({
+			type:"POST",
+			url:"../ajax.php?do=addHabitat",
+			data:formData,
+			contentType: false,
+            processData: false,
+			success:function(res){
+				console.log(res);
+				if(res=="success"){
+					layer.alert("uploaded successfully",{
+						title:"message",
+						btn:"Confirm"
+					},function(){
+						location.href="Habitat_list.php";
+					});
+					
+				}
+			}
+
 		});
-		
 	}
 	
 </script>
