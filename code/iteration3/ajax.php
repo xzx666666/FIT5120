@@ -16,6 +16,7 @@ if($do=="uploadImg"){
     mysqli_query($con,$sql);
     echo "success";
 }
+
 if($do=="addMember"){
     if($_FILES){
         $image=upload($_FILES);
