@@ -16,7 +16,6 @@ if($do=="uploadImg"){
     mysqli_query($con,$sql);
     echo "success";
 }
-
 if($do=="addMember"){
     if($_FILES){
         $image=upload($_FILES);
@@ -116,11 +115,29 @@ if($do=="getHabitatListForMap"){
         $data[$k]['geometry']['type']='Point';
         $data[$k]['geometry']['coordinates']=[$v['longitude'], $v['latitude']];
     }
-    echo json_encode($data);
+    $sql="select * from ko_hospital";
+    $result=mysqli_query($con,$sql);
+    $rows2=mysqli_fetch_all($result,MYSQLI_ASSOC);
+    foreach ($rows2 as $k2=>$v2){
+        $data2[$k2]['type']="Feature";
+        $data2[$k2]['properties']['message']=$v2['id'];
+        $data2[$k2]['properties']['iconSize']=[40,40];
+        $data2[$k2]['geometry']['type']='Point';
+        $data2[$k2]['geometry']['coordinates']=[$v2['longitude'], $v2['latitude']];
+    }
+    $all=array("habitat"=>$data,"hospital"=>$data2);
+    echo json_encode($all);
 }
 if($do=="getHabitat"){
     $id=$_POST['id'];
     $sql="select * from ko_habitat where id='$id'";
+    $result=mysqli_query($con,$sql);
+    $rows=mysqli_fetch_array($result,MYSQLI_ASSOC);
+    echo json_encode($rows);
+}
+if($do=="getHospital"){
+    $id=$_POST['id'];
+    $sql="select * from ko_hospital where id='$id'";
     $result=mysqli_query($con,$sql);
     $rows=mysqli_fetch_array($result,MYSQLI_ASSOC);
     echo json_encode($rows);
