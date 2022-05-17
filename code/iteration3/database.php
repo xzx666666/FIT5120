@@ -1,3 +1,6 @@
+/*
+Connect between server and database 
+*/
 <?php
 $host="127.0.0.1";
 $user="root";
